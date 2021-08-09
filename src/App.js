@@ -5,12 +5,13 @@ import "bootstrap/dist/css/bootstrap.css";
 import BestBooks from "./BestBooks";
 import Profile from "./Profile";
 import Login from "./Login";
+import { withAuth0 } from "@auth0/auth0-react";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class App extends React.Component {
   render() {
-    console.log("app", this.props);
+    const { isAuthenticated } = this.props.auth0;
     return (
       <>
         <Router>
@@ -18,11 +19,17 @@ class App extends React.Component {
           <Header />
           <Switch>
             <Route exact path="/">
-              <BestBooks />
-              <Login />
+              {
+                !isAuthenticated
+                  ? <Login />
+                  : <BestBooks />
+              }
             </Route>
             <Route exact path="/profile">
-              <Profile />
+              {
+                isAuthenticated &&
+                <Profile />
+              }
             </Route>
           </Switch>
           <Footer />
@@ -33,4 +40,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withAuth0(App);

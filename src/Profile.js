@@ -4,16 +4,15 @@ import Content from "./components/Content";
 
 class Profile extends Component {
   render() {
-    const { user, isAuthenticated } = this.props.auth0;
+    const { user } = this.props.auth0;
     return (
-      isAuthenticated && (
         <div>
           <img src={user.picture} alt={user.name} />
           <div>Hello {user.name}</div>
           <p>{user.email}</p>
           <Content />
         </div>
-      )
+      
     );
   }
 }

@@ -23,7 +23,7 @@ export class Content extends Component {
           },
           method: "get",
           baseURL: process.env.REACT_APP_SERVER,
-          url: "/verify-token",
+          url: "/test",
         };
 
         axios(config)
@@ -40,7 +40,7 @@ export class Content extends Component {
   render() {
     return (
       <div>
-        <p>Component Loaded!</p>
+        <p></p>
         {this.state.user.nickname && (
           <p>Data from Backend: {this.state.user.nickname}</p>
         )}

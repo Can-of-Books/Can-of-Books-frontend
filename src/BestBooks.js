@@ -1,21 +1,21 @@
 import React from 'react';
-import Jumbotron from "react-bootstrap/Jumbotron";
-import { withAuth0 } from "@auth0/auth0-react";
+import { Jumbotron } from "react-bootstrap";
+
 
 class MyFavoriteBooks extends React.Component {
   render() {
-    const { isAuthenticated } = this.props.auth0;
+    
     return (
-      isAuthenticated && (
+     
       <Jumbotron>
         <h1>My Favorite Books</h1>
         <p>
           This is a collection of my favorite books
         </p>
       </Jumbotron>
-      )
+      
     );
   }
 }
 
-export default withAuth0(MyFavoriteBooks);
+export default MyFavoriteBooks;
