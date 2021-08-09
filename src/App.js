@@ -6,6 +6,7 @@ import BestBooks from "./BestBooks";
 import Profile from "./Profile";
 import Login from "./Login";
 import { withAuth0 } from "@auth0/auth0-react";
+import BestBooksList from "./components/BestBooksList";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -29,6 +30,12 @@ class App extends React.Component {
               {
                 isAuthenticated &&
                 <Profile />
+              }
+            </Route>
+            <Route>
+              {
+                isAuthenticated &&
+                <BestBooksList />
               }
             </Route>
           </Switch>
