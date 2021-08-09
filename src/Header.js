@@ -2,7 +2,9 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from "react-router-dom";
-import './Header.css';
+import Login from "./Login";
+import Logout from "./Logout";
+
 
 class Header extends React.Component {
   render() {
@@ -12,6 +14,9 @@ class Header extends React.Component {
         <Link to="/">Home</Link>
         <Link to="/profile">Profile</Link>
         {/* TODO: if the user is logged in, render the `LogoutButton` - if the user is logged out, render the `LoginButton` */}
+        <Login />
+        <Logout />
+
       </Navbar>
     );
   }
