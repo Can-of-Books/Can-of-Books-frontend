@@ -43,10 +43,11 @@ export class BestBooks extends Component {
                                         <Carousel.Item>
                                             <img
                                                 className="d-block w-100"
-                                                src="holder.js/800x400?text={book.title}&bg=f5f5f5"
+                                                src="holder.js/800x400?text=Book List&bg=f5f5f5"
                                                 alt={book.title}
                                             />
                                             <Carousel.Caption>
+                                                <h1>{book.title}</h1>
                                                 <h5>{book.status}</h5>
                                                 <p>{book.description}</p>
                                             </Carousel.Caption>
