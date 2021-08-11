@@ -20,43 +20,36 @@ export class BestBooks extends Component {
 
             this.setState({
                 books: axiosResponse.data.books
-             
+
             });
-            
+
         }).catch(error => alert(error));
     }
 
 
     render() {
         return (
-            <div>
-                {
-                    this.state.books.length &&
-                    this.state.books.map(book => {
-                        return (
 
-                            <Carousel fade>
-                                <Carousel.Item>
-                                    <img
-                                        className="d-block w-100"
-                                        src="holder.js/800x400?text="
-                                        alt={book.title}
-                                    />
-                                    <Carousel.Caption>
-                                        <h1>{book.title}</h1>
-                                        <h5>{book.status}</h5>
-                                        <p>{book.description}</p>
-                                        <h3>{this.props.auth0.user.email}</h3>
-                                    </Carousel.Caption>
-                                </Carousel.Item>
-                            </Carousel>
+            <Carousel fade>
+                {this.state.books.length &&
+                    this.state.books.map(book =>
+                        <Carousel.Item>
+                            <img  style={{ width: '20rem', height: '40rem'}} 
+                                className="d-block w-100"
+                                src={book.img_url}
+                                alt={book.title}
+                            />
+                            <Carousel.Caption style={{color:'red'}}>
+                                <h1>{book.title}</h1>
+                                <h5>{book.status}</h5>
+                                <p>{book.description}</p>
+                            </Carousel.Caption>
+                        </Carousel.Item>
 
-                        )
-                    })
+                    )}
 
+            </Carousel>
 
-                }
-            </div>
         )
     }
 }
