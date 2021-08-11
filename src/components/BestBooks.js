@@ -1,57 +1,111 @@
-import React, { Component } from 'react';
-import { withAuth0 } from '@auth0/auth0-react';
-import axios from 'axios';
-import Carousel from 'react-bootstrap/Carousel';
-
+import React, { Component } from "react";
+import { withAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
+import { Carousel, Button } from "react-bootstrap";
+import FormModal from "./FormModal";
 
 export class BestBooks extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      books: [],
+      displayAddModal: false,
+    };
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            books: [],
-        };
-    }
+  componentDidMount = () => {
+    const userEmail = this.props.auth0.user.email;
 
-    componentDidMount = () => {
-        const userEmail = this.props.auth0.user.email;
+    axios
+      .get(`${process.env.REACT_APP_SERVER}/books?email=${userEmail}`)
+      .then((axiosResponse) => {
+        this.setState({
+          books: axiosResponse.data.books,
+        });
+      })
+      .catch((error) => alert(error));
+  };
 
-        axios.get(`${process.env.REACT_APP_SERVER}/books?email=${userEmail}`).then((axiosResponse) => {
+  handleDisplayModal = () => {
+    this.setState({ displayModal: !this.state.displayAddModal });
+  };
 
-            this.setState({
-                books: axiosResponse.data.books
+  handleAddBookForm = (e) => {
+    e.preventDefault();
+    this.handleDisplayModal();
 
-            });
+    const body = {
+      title: e.target.bookName.value,
+      desdescription: e.target.bookDes.value,
+      status: e.target.bookStatus.value,
+      img_url: e.target.Image.value,
+    };
 
-        }).catch(error => alert(error));
-    }
+    axios
+      .post(`${process.env.REACT_APP_SERVER}/book`, body)
+      .then((axiosResponse) => {
+        this.state.books.push(axiosResponse.data);
+        this.setState({
+          books: this.state.books,
+        });
+      })
+      .catch((error) => alert(error));
+  };
 
+  handleDeleteBook = (bookId) => {
+    axios
+      .delete(`${process.env.REACT_APP_SERVER}/book/${bookId}`)
+      .then((res) => {
+        if (res.data.ok === 1) {
+          const tempBookObj = this.state.books.filter((book) => book._id !== bookId);
+          this.setState({
+            books: tempBookObj,
+          });
+        }
+      })
+      .catch((error) => alert(error));
+  };
 
-    render() {
-        return (
+  render() {
+    return (
+      <div>
+        <Button variant="secondary" onClick={() => this.handleDisplayModal()}>
+          Add a Book
+        </Button>
 
-            <Carousel fade>
-                {this.state.books.length &&
-                    this.state.books.map(book =>
-                        <Carousel.Item>
-                            <img  style={{ width: '20rem', height: '40rem'}} 
-                                className="d-block w-100"
-                                src={book.img_url}
-                                alt={book.title}
-                            />
-                            <Carousel.Caption style={{color:'red'}}>
-                                <h1>{book.title}</h1>
-                                <h5>{book.status}</h5>
-                                <p>{book.description}</p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
+        <FormModal
+          show={this.state.displayAddModal}
+          handleDisplayModal={this.handleDisplayModal}
+          handleSubmitForm={this.handleAddBookForm}
+        />
+        <br />
+        <br />
 
-                    )}
+        <Carousel fade>
+          {this.state.books.length &&
+            this.state.books.map((book) => (
+              <Carousel.Item>
+                <img
+                  style={{ width: "20rem", height: "40rem" }}
+                  className="d-block w-100"
+                  src={book.img_url}
+                  alt={book.title}
+                />
+                <Carousel.Caption style={{ color: "red" }}>
+                  <h1>{book.title}</h1>
+                  <h5>{book.status}</h5>
+                  <p>{book.description}</p>
+                  <Button variant="outline-danger" style={{zindex:"1"}} onClick={() => this.handleDeleteBook(book._id)}>Delete Book</Button>
 
-            </Carousel>
+                </Carousel.Caption>
 
-        )
-    }
+              </Carousel.Item>
+              
+            ))}
+        </Carousel>
+      </div>
+    );
+  }
 }
 
 export default withAuth0(BestBooks);

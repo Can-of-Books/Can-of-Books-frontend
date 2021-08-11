@@ -3,7 +3,6 @@ import { Jumbotron } from "react-bootstrap";
 
 
 
-
 class Welcome extends React.Component {
   render() {
     
