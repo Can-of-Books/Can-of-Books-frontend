@@ -19,7 +19,7 @@ export class Content extends Component {
 
         const config = {
           headers: {
-            Authorization: `Bearer ${jwt}`,
+            "Authorization": `Bearer ${jwt}`,
           },
           method: "get",
           baseURL: process.env.REACT_APP_SERVER,
@@ -40,7 +40,6 @@ export class Content extends Component {
   render() {
     return (
       <div>
-        <p></p>
         {this.state.user.nickname && (
           <p>Data from Backend: {this.state.user.nickname}</p>
         )}
