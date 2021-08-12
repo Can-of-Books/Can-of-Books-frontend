@@ -3,6 +3,7 @@ import { withAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Carousel, Button } from "react-bootstrap";
 import FormModal from "./FormModal";
+import UpdateFormModal  from "./UpdateFormModal";
 
 export class BestBooks extends Component {
   constructor(props) {
@@ -10,6 +11,9 @@ export class BestBooks extends Component {
     this.state = {
       books: [],
       displayAddModal: false,
+      displayUpdateModal: false,
+      updateBookObject: {},
+
     };
   }
 
@@ -30,16 +34,19 @@ export class BestBooks extends Component {
     this.setState({ displayModal: !this.state.displayAddModal });
   };
 
+  handleDisplayUpdateModal = (bookObject) => {
+    this.setState({
+      displayUpdateModal: !this.state.displayUpdateModal,
+      updateBookObject: bookObject
+    });
+  }
+
+
   handleAddBookForm = (e) => {
     e.preventDefault();
     this.handleDisplayModal();
 
-    const body = {
-      title: e.target.bookName.value,
-      desdescription: e.target.bookDes.value,
-      status: e.target.bookStatus.value,
-      img_url: e.target.Image.value,
-    };
+    const body = {booksArr};
 
     axios
       .post(`${process.env.REACT_APP_SERVER}/book`, body)
@@ -65,6 +72,11 @@ export class BestBooks extends Component {
       })
       .catch((error) => alert(error));
   };
+
+  
+  updateBooksArrOfObjectState = (newBookArr) => {
+    this.setState({ book : newBookArr });
+  }
 
   render() {
     return (
@@ -96,7 +108,10 @@ export class BestBooks extends Component {
                   <h5>{book.status}</h5>
                   <p>{book.description}</p>
                   <Button variant="outline-danger" style={{zindex:"1"}} onClick={() => this.handleDeleteBook(book._id)}>Delete Book</Button>
-
+                  <br />
+<Button variant="outline-dark" onClick={() => this.handleDisplayUpdateModal(book)}>
+                          Update Book
+                        </Button>
                 </Carousel.Caption>
 
               </Carousel.Item>
