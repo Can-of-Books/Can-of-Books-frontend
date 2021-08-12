@@ -19,7 +19,7 @@ export class FormModal extends Component {
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Book Description</Form.Label>
-                <Form.Control name="bookDes" type="text" placeholder="Enter the book Description" />
+                <Form.Control name="bookDescription" type="text" placeholder="Enter the book Description" />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -29,7 +29,7 @@ export class FormModal extends Component {
               
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Image URL</Form.Label>
-                <Form.Control name="Image" type="text" placeholder="Enter the image URL" />
+                <Form.Control name="bookImage" type="text" placeholder="Enter the image URL" />
               </Form.Group>
               <Button variant="primary" type="submit">
                 Add Book
