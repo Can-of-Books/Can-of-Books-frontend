@@ -8,11 +8,12 @@ export class UpdateFormModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: this.props.title,
-      description: this.props.description,
-      status: this.props.status,
-      img_url: this.props.img_url,
-      bookId: this.props._id,
+      title: this.props.bookName.value,
+      description: this.props.bookDes.value,
+      status: this.props.bookStatus.value,
+      img_url: this.props.Image.value,
+
+
     };
   }
 
@@ -48,6 +49,7 @@ export class UpdateFormModal extends Component {
           return book;
         });
         this.props.updateBooks(updatedBookArr);
+
 
 
 

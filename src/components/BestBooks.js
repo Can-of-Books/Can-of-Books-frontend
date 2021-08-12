@@ -83,6 +83,12 @@ export class BestBooks extends Component {
         this.setState({ book: newBookArr });
     }
 
+    const body = {
+      email: this.props.auth0.user.email, 
+      title: e.target.bookName.value,
+      description: e.target.bookDes.value,
+      status: e.target.bookStatus.value,
+      img_url: e.target.Image.value,};
     render() {
         return (
             <div>

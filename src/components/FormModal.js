@@ -7,7 +7,7 @@ export class FormModal extends Component {
   render() {
     return (
       <div>
-        <Modal show={this.props.show} onHide={this.props.handleDisplayModal}>
+        <Modal show={this.props.show} onHide={this.props.handelDisplayModal}>
           <Modal.Header>
             <Modal.Title>Add Book Form</Modal.Title>
           </Modal.Header>
@@ -37,7 +37,7 @@ export class FormModal extends Component {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.props.handleDisplayModal}>
+            <Button variant="secondary" onClick={this.props.handelDisplayModal}>
               Close
             </Button>
           </Modal.Footer>
