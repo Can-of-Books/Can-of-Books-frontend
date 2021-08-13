@@ -8,53 +8,48 @@ export class UpdateFormModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: this.props.bookName.value,
-      description: this.props.bookDes.value,
-      status: this.props.bookStatus.value,
-      img_url: this.props.Image.value,
-
-
+      bookName: this.props.newBookArr.value,
+      bookDes: this.props.newBookArr.value,
+      bookStatus: this.props.newBookArr.value,
+      Image: this.props.newBookArr.value,
     };
   }
 
-  handelNameChange = (e) => this.setState({ title: e.target.value });
-  handelDesChange = (e) => this.setState({ description: e.target.value });
-  handelStatusChange = (e) => this.setState({ status: e.target.value });
-  handelImageChange = (e) => this.setState({ img_url: e.target.value });
+  handelNameChange = (e) => this.setState({ bookName: e.target.value });
+  handelDesChange = (e) => this.setState({ bookDes: e.target.value });
+  handelStatusChange = (e) => this.setState({ bookStatus: e.target.value });
+  handelImageChange = (e) => this.setState({ Image: e.target.value });
 
   handelSubmitForm = (e) => {
     e.preventDefault();
     const bookId = this.state.bookId;
     const body = {
-      title: this.state.title,
-      description: this.state.description,
-      status: this.state.status,
-      img_url: this.state.img_url,
+      title: this.state.bookName,
+      description: this.state.bookDes,
+      status: this.state.bookStatus,
+      img_url: this.state.Image,
     };
 
-    axios
-      .put(`${process.env.REACT_APP_SERVER}/book/${bookId}`, body)
-      .then((axiosResponse) => {
+    axios.put(`${process.env.REACT_APP_SERVER}/book/${bookId}`, body).then((axiosResponse) => {
+        console.log("updated Book Data:  ", axiosResponse.data);
 
-        const updatedBookArr = this.props.booksArr.map((book) => {
-
+          
+        const updatedbookArr = this.props.booksArr.map((book) => {
           if (book._id === bookId) {
-            book.title = axiosResponse.data.books.title;
-            book.description = axiosResponse.data.books.description;
-            book.status = axiosResponse.data.books.status;
-            book.img_url = axiosResponse.data.books.img_url;
+            book.title = axiosResponse.data.title;
+            book.description = axiosResponse.data.description;
+            book.status = axiosResponse.data.status;
+            book.img_url = axiosResponse.data.img_url;
 
             return book;
           }
           return book;
         });
-        this.props.updateBooks(updatedBookArr);
-
-
-
+        this.props.updatebooks(updatedbookArr);
 
         this.props.handelDisplayModal({});
-      }).catch((error) => alert(error));
+      })
+      .catch((error) => alert(error));
   };
 
   render() {
@@ -62,53 +57,54 @@ export class UpdateFormModal extends Component {
       <div>
         <Modal show={this.props.show} onHide={this.props.handelDisplayModal}>
           <Modal.Header>
-            <Modal.Title>Update Book</Modal.Title>
+            <Modal.Title>Update book</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={(e) => this.handelSubmitForm(e)}>
               <Form.Group className="mb-3">
-                <Form.Label>Book Name</Form.Label>
+                <Form.Label>book Name</Form.Label>
                 <Form.Control
                   onChange={(e) => this.handelNameChange(e)}
-                  value={this.state.title}
+                  defaultValue={this.state.bookObject.bookName}
                   type="text"
                   placeholder="Enter the books name"
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Book Description</Form.Label>
+                <Form.Label>book Breed</Form.Label>
                 <Form.Control
                   onChange={(e) => this.handelDesChange(e)}
-                  value={this.state.description}
+                  defaultValue={this.state.bookObject.bookDes}
                   type="text"
-                  placeholder="Enter the books description"
+                  placeholder="Enter the books breed"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>book Image</Form.Label>
+                <Form.Control
+                  onChange={(e) => this.handelImageChange(e)}
+                  defaultValue={this.state.bookObject.Image}
+                  type="text"
+                  placeholder="Enter the image URL"
                 />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>book Status</Form.Label>
                 <Form.Control
                   onChange={(e) => this.handelStatusChange(e)}
-                  value={this.state.status}
+                  defaultValue={this.state.bookObject.bookStatus}
                   type="text"
-                  placeholder="Enter the book status "
+                  placeholder="Enter the status URL"
                 />
               </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Book Image</Form.Label>
-                <Form.Control
-                  onChange={(e) => this.handelImageChange(e)}
-                  value={this.state.img_url}
-                  type="text"
-                  placeholder="Enter the image URL"
-                />
-              </Form.Group>
+
               <Button variant="primary" type="submit">
-                Update Book
+                Update book
               </Button>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.props.handelDisplayModal}>
+            <Button variant="secondary" onClick={this.props.handleClose}>
               Close
             </Button>
           </Modal.Footer>

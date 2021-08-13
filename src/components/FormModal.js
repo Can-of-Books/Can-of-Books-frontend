@@ -12,14 +12,14 @@ export class FormModal extends Component {
             <Modal.Title>Add Book Form</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form onSubmit={(e) => this.props.handleSubmitForm(e)}>
+            <Form onSubmit={(e) => this.props.handelSubmitForm(e)}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Book Name</Form.Label>
                 <Form.Control name="bookName" type="text" placeholder="Enter the book name" />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Book Description</Form.Label>
-                <Form.Control name="bookDescription" type="text" placeholder="Enter the book Description" />
+                <Form.Control name="bookDes" type="text" placeholder="Enter the book Description" />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -29,7 +29,7 @@ export class FormModal extends Component {
               
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Image URL</Form.Label>
-                <Form.Control name="bookImage" type="text" placeholder="Enter the image URL" />
+                <Form.Control name="Image" type="text" placeholder="Enter the image URL" />
               </Form.Group>
               <Button variant="primary" type="submit">
                 Add Book
@@ -47,4 +47,4 @@ export class FormModal extends Component {
   }
 }
 
-export default FormModal
+export default FormModal;
