@@ -8,11 +8,10 @@ export class UpdateFormModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: target.bookName.value,
-      description: target.bookDes.value,
-      status: target.bookStatus.value,
-      img_url: target.Image.value,
-      catName: this.props.catObject.cat_name,
+      title: this.props.bookName.value,
+      description: this.props.bookDes.value,
+      status: this.props.bookStatus.value,
+      img_url: this.props.Image.value,
 
     };
   }
@@ -50,7 +49,7 @@ export class UpdateFormModal extends Component {
         });
         this.props.updatebooks(updatedbookArr);
 
-        this.props.handelDisplayModal({}); // to  close the modal and reset the object of the book to be updated
+        this.props.handelDisplayModal({});
       })
       .bookch((error) => alert(error));
   };

@@ -46,7 +46,12 @@ export class BestBooks extends Component {
     e.preventDefault();
     this.handleDisplayModal();
 
-    const body = {booksArr};
+    const body = {
+      email: this.props.auth0.user.email, 
+      title: e.target.bookName.value,
+      description: e.target.bookDes.value,
+      status: e.target.bookStatus.value,
+      img_url: e.target.Image.value,};
 
     axios
       .post(`${process.env.REACT_APP_SERVER}/book`, body)
