@@ -8,11 +8,10 @@ export class UpdateFormModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: this.props.bookName.value,
-      description: this.props.bookDes.value,
-      status: this.props.bookStatus.value,
-      img_url: this.props.Image.value,
-
+      bookName: this.props.newBookArr.value,
+      bookDes: this.props.newBookArr.value,
+      bookStatus: this.props.newBookArr.value,
+      Image: this.props.newBookArr.value,
     };
   }
 
@@ -31,11 +30,10 @@ export class UpdateFormModal extends Component {
       img_url: this.state.Image,
     };
 
-    axios
-      .put(`${process.env.REACT_APP_SERVER}/book/${bookId}`, body)
-      .then((axiosResponse) => {
+    axios.put(`${process.env.REACT_APP_SERVER}/book/${bookId}`, body).then((axiosResponse) => {
         console.log("updated Book Data:  ", axiosResponse.data);
 
+          
         const updatedbookArr = this.props.booksArr.map((book) => {
           if (book._id === bookId) {
             book.title = axiosResponse.data.title;
@@ -51,7 +49,7 @@ export class UpdateFormModal extends Component {
 
         this.props.handelDisplayModal({});
       })
-      .bookch((error) => alert(error));
+      .catch((error) => alert(error));
   };
 
   render() {
@@ -67,7 +65,7 @@ export class UpdateFormModal extends Component {
                 <Form.Label>book Name</Form.Label>
                 <Form.Control
                   onChange={(e) => this.handelNameChange(e)}
-                  value={this.state.bookName}
+                  defaultValue={this.state.bookObject.bookName}
                   type="text"
                   placeholder="Enter the books name"
                 />
@@ -76,7 +74,7 @@ export class UpdateFormModal extends Component {
                 <Form.Label>book Breed</Form.Label>
                 <Form.Control
                   onChange={(e) => this.handelDesChange(e)}
-                  value={this.state.bookDes}
+                  defaultValue={this.state.bookObject.bookDes}
                   type="text"
                   placeholder="Enter the books breed"
                 />
@@ -85,7 +83,7 @@ export class UpdateFormModal extends Component {
                 <Form.Label>book Image</Form.Label>
                 <Form.Control
                   onChange={(e) => this.handelImageChange(e)}
-                  value={this.state.img_url}
+                  defaultValue={this.state.bookObject.Image}
                   type="text"
                   placeholder="Enter the image URL"
                 />
@@ -94,7 +92,7 @@ export class UpdateFormModal extends Component {
                 <Form.Label>book Status</Form.Label>
                 <Form.Control
                   onChange={(e) => this.handelStatusChange(e)}
-                  value={this.state.status}
+                  defaultValue={this.state.bookObject.bookStatus}
                   type="text"
                   placeholder="Enter the status URL"
                 />
@@ -106,7 +104,7 @@ export class UpdateFormModal extends Component {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.props.handelDisplayModal}>
+            <Button variant="secondary" onClick={this.props.handleClose}>
               Close
             </Button>
           </Modal.Footer>

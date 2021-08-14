@@ -12,7 +12,7 @@ export class FormModal extends Component {
             <Modal.Title>Add Book Form</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form onSubmit={(e) => this.props.handleSubmitForm(e)}>
+            <Form onSubmit={(e) => this.props.handelSubmitForm(e)}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Book Name</Form.Label>
                 <Form.Control name="bookName" type="text" placeholder="Enter the book name" />

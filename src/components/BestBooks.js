@@ -12,7 +12,7 @@ export class BestBooks extends Component {
       books: [],
       displayAddModal: false,
       displayUpdateModal: false,
-      updateBookObject: {},
+      bookObject: {},
 
     };
   }
@@ -24,77 +24,84 @@ export class BestBooks extends Component {
       .get(`${process.env.REACT_APP_SERVER}/books?email=${userEmail}`)
       .then((axiosResponse) => {
         this.setState({
-          books: axiosResponse.data.books,
+          books: axiosResponse.data,
         });
       })
       .catch((error) => alert(error));
   };
 
-  handleDisplayModal = () => {
-    this.setState({ displayModal: !this.state.displayAddModal });
-  };
+  handelDisplayModal = () => {
+    this.setState({ displayAddModal: !this.state.displayAddModal });
+  }
 
-  handleDisplayUpdateModal = (bookObject) => {
+  handelDisplayUpdateModal = (bookObject) => {
     this.setState({
       displayUpdateModal: !this.state.displayUpdateModal,
-      updateBookObject: bookObject
+      bookObject: bookObject
     });
   }
 
+ 
 
-  handleAddBookForm = (e) => {
+  handelAddBookForm = (e) => {
+
     e.preventDefault();
-    this.handleDisplayModal();
+    this.handelDisplayModal(); // hide the modal after form submission
 
     const body = {
+      
       email: this.props.auth0.user.email, 
       title: e.target.bookName.value,
       description: e.target.bookDes.value,
       status: e.target.bookStatus.value,
       img_url: e.target.Image.value,};
+    
+    axios.post(`${process.env.REACT_APP_SERVER}/book`, body).then(axiosResponse => {
+      this.state.books.push(axiosResponse.data);
+      this.setState({
+        books: this.state.books
+      });
+    }).catch(error => alert(error));
+  }
 
-    axios
-      .post(`${process.env.REACT_APP_SERVER}/book`, body)
-      .then((axiosResponse) => {
-        this.state.books.push(axiosResponse.data);
+  handelDeleteBook = (bookId) => {
+    axios.delete(`${process.env.REACT_APP_SERVER}/book/${bookId}`).then(res => {
+      if (res.data.ok === 1) {
+        const tempbookObj = this.state.books.filter(book => book._id !== bookId);
         this.setState({
-          books: this.state.books,
+          books: tempbookObj
         });
-      })
-      .catch((error) => alert(error));
-  };
+      }
+    }).catch(error => alert(error))
+  }
 
-  handleDeleteBook = (bookId) => {
-    axios
-      .delete(`${process.env.REACT_APP_SERVER}/book/${bookId}`)
-      .then((res) => {
-        if (res.data.ok === 1) {
-          const tempBookObj = this.state.books.filter((book) => book._id !== bookId);
-          this.setState({
-            books: tempBookObj,
-          });
-        }
-      })
-      .catch((error) => alert(error));
-  };
-
-  
-  updateBooksArrOfObjectState = (newBookArr) => {
-    this.setState({ book : newBookArr });
+  updatebooksArrOfObjectState = (newbooksArr) => {
+    this.setState({ book: newbooksArr });
   }
 
   render() {
     return (
       <div>
-        <Button variant="secondary" onClick={() => this.handleDisplayModal()}>
+        <Button variant="secondary" onClick={() => this.handelDisplayModal()}>
           Add a Book
         </Button>
-
         <FormModal
           show={this.state.displayAddModal}
-          handleDisplayModal={this.handleDisplayModal}
-          handleSubmitForm={this.handleAddBookForm}
+          handelDisplayModal={this.handelDisplayModal}
+          handelSubmitForm={this.handelAdBookForm}
         />
+        
+        {
+          this.state.displayUpdateModal &&
+          <UpdateFormModal
+            show={this.state.displayUpdateModal}
+            handleDisplayModal={this.handelDisplayUpdateModal}
+            newBookArr={this.state.bookObject}
+            updatebooks={this.updatebooksArrOfObjectState}
+            booksArr={this.state.books}
+          />
+        }
+        
         <br />
         <br />
 
@@ -112,9 +119,9 @@ export class BestBooks extends Component {
                   <h1>{book.title}</h1>
                   <h5>{book.status}</h5>
                   <p>{book.description}</p>
-                  <Button variant="outline-danger" style={{zindex:"1"}} onClick={() => this.handleDeleteBook(book._id)}>Delete Book</Button>
+                  <Button variant="outline-danger" style={{zindex:"1"}} onClick={() => this.handelDeleteBook(book._id)}>Delete Book</Button>
                   <br />
-<Button variant="outline-dark" onClick={() => this.handleDisplayUpdateModal(book)}>
+<Button variant="outline-dark" onClick={() => this.handelDisplayUpdateModal(book)}>
                           Update Book
                         </Button>
                 </Carousel.Caption>
