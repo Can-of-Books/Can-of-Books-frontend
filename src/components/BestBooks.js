@@ -46,7 +46,7 @@ export class BestBooks extends Component {
   handelAddBookForm = (e) => {
 
     e.preventDefault();
-    this.handelDisplayModal(); // hide the modal after form submission
+    this.handelDisplayModal(); 
 
     const body = {
       
