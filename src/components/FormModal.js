@@ -47,4 +47,4 @@ export class FormModal extends Component {
   }
 }
 
-export default FormModal
+export default FormModal;
